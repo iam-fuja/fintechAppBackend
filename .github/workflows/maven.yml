@@ -7,7 +7,7 @@ on:
   push:
     branches: [ "develop" ]
   pull_request:
-    branches: [ "FLP2-3/CICD_pipeline" ]
+    branches: [ "develop" ]
 
 jobs:
   build:
