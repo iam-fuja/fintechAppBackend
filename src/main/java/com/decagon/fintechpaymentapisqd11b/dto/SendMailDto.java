@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 public class SendMailDto {
 
+    private String to;
     private String name;
-    private String emailAddress;
+    private String subject;
+    private String body;
 }

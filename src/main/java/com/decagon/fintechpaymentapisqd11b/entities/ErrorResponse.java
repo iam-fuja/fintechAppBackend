@@ -13,6 +13,5 @@ public class ErrorResponse {
         private String message;
         private HttpStatus httpStatus;
         private LocalDateTime date = LocalDateTime.now();
-//    private String debugMessage;
 
 }

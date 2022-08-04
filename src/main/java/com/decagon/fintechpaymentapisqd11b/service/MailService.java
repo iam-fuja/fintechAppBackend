@@ -7,5 +7,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface MailService {
 
-    String sendNotice(SendMailDto sendMailDto) throws MailException;
+    String sendMail(SendMailDto sendMailDto) throws MailException;
 }
