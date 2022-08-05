@@ -1,4 +1,19 @@
 package com.decagon.fintechpaymentapisqd11b.customExceptions;
 
-public class GlobalErrorHandler {
+import com.decagon.fintechpaymentapisqd11b.entities.ErrorResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+@RestControllerAdvice
+public class GlobalErrorHandler extends ResponseEntityExceptionHandler {
+
+    @ExceptionHandler(FailedMailException.class)
+    public ResponseEntity<ErrorResponse> handlerForFailedMailException(final FailedMailException ex){
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setMessage(ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 }
