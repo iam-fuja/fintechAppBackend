@@ -1,0 +1,13 @@
+/Users/dec/IdeaProjects/fintech-payment-api-sqd11a-group-b/src/main/java/com/decagon/fintechpaymentapisqd11b/controller/UsersController.java
+/Users/dec/IdeaProjects/fintech-payment-api-sqd11a-group-b/src/main/java/com/decagon/fintechpaymentapisqd11b/entities/BaseClass.java
+/Users/dec/IdeaProjects/fintech-payment-api-sqd11a-group-b/src/main/java/com/decagon/fintechpaymentapisqd11b/dto/UsersDTO.java
+/Users/dec/IdeaProjects/fintech-payment-api-sqd11a-group-b/src/main/java/com/decagon/fintechpaymentapisqd11b/service/serviceImpl/UsersServiceImpl.java
+/Users/dec/IdeaProjects/fintech-payment-api-sqd11a-group-b/src/main/java/com/decagon/fintechpaymentapisqd11b/entities/Transaction.java
+/Users/dec/IdeaProjects/fintech-payment-api-sqd11a-group-b/src/main/java/com/decagon/fintechpaymentapisqd11b/repository/UsersRepository.java
+/Users/dec/IdeaProjects/fintech-payment-api-sqd11a-group-b/src/main/java/com/decagon/fintechpaymentapisqd11b/service/UsersService.java
+/Users/dec/IdeaProjects/fintech-payment-api-sqd11a-group-b/src/main/java/com/decagon/fintechpaymentapisqd11b/customExceptions/GlobalErrorHandler.java
+/Users/dec/IdeaProjects/fintech-payment-api-sqd11a-group-b/src/main/java/com/decagon/fintechpaymentapisqd11b/FintechPaymentApiSqd11bApplication.java
+/Users/dec/IdeaProjects/fintech-payment-api-sqd11a-group-b/src/main/java/com/decagon/fintechpaymentapisqd11b/entities/Wallet.java
+/Users/dec/IdeaProjects/fintech-payment-api-sqd11a-group-b/src/main/java/com/decagon/fintechpaymentapisqd11b/enums/UsersStatus.java
+/Users/dec/IdeaProjects/fintech-payment-api-sqd11a-group-b/src/main/java/com/decagon/fintechpaymentapisqd11b/enums/TransactionType.java
+/Users/dec/IdeaProjects/fintech-payment-api-sqd11a-group-b/src/main/java/com/decagon/fintechpaymentapisqd11b/entities/Users.java
