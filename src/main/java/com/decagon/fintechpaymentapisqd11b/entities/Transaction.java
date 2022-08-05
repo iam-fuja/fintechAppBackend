@@ -1,5 +1,6 @@
 package com.decagon.fintechpaymentapisqd11b.entities;
 
+import com.decagon.fintechpaymentapisqd11b.enums.TransactionType;
 import com.decagon.fintechpaymentapisqd11b.enums.UsersStatus;
 import lombok.*;
 import org.hibernate.annotations.*;
@@ -19,44 +20,37 @@ import java.util.Date;
 @Builder
 
 @Entity
-public class Users extends BaseClass{
+public class Transaction extends BaseClass{
 
     @NotNull
-    private String firstName;
+    private BigInteger amount;
 
     @NotNull
-    private String lastName;
-
-    @Column(unique = true, length = 11)
-    @NotNull
-    private String BVN;
-
-    @Email
-    @Column(unique = true)
-    @NotNull
-    private String email;
-
     @Column(length = 11)
-    @NotNull
-    private String phoneNumber;
+    private String sourceAccount;
 
-    @Column(length = 64)
     @NotNull
-    private String password;
+    private String narration;
 
-    @Column(length = 4)
     @NotNull
-    private String pin;
-
     @Enumerated(EnumType.STRING)
-    @NotNull
     private UsersStatus usersStatus;
 
     @NotNull
-    private String token;
+    private String clientRef;
 
-    @OneToOne(mappedBy = "users")
+    @NotNull
+    private String flwRef;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private TransactionType transactionType;
+
+    @NotNull
+    private Date transactionDate;
+
+    @ManyToOne
+    @JoinColumn(name = "wallet_id", referencedColumnName = "id")
     private Wallet wallet;
-
 }
 
