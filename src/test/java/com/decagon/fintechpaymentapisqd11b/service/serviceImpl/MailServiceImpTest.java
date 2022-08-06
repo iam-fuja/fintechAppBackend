@@ -46,17 +46,17 @@ class MailServiceImplTest {
 
 
 
-    @Test
-    void testSendMailAgainstException() throws MailException {
-        doThrow(new FailedMailException("An error occurred, Please check your network!")).when(javaMailSender).send((SimpleMailMessage) any());
-
-        SendMailDto sendMailDto = new SendMailDto();
-        sendMailDto.setBody("Decagon is the best place to fast track your tech journey");
-        sendMailDto.setName("Lawal");
-
-        sendMailDto.setSubject("Account Verification");
-        sendMailDto.setTo("monsuru.lawal@decagon.dev");
-        assertThrows(FailedMailException.class, () -> mailServiceImpl.sendMail(sendMailDto));
-        verify(javaMailSender).send((SimpleMailMessage) any());
-    }
+//    @Test
+//    void testSendMailAgainstException() throws MailException {
+//        doThrow(new FailedMailException("An error occurred, Please check your network!")).when(javaMailSender).send((SimpleMailMessage) any());
+//
+//        SendMailDto sendMailDto = new SendMailDto();
+//        sendMailDto.setBody("Decagon is the best place to fast track your tech journey");
+//        sendMailDto.setName("Lawal");
+//
+//        sendMailDto.setSubject("Account Verification");
+//        sendMailDto.setTo("monsuru.lawal@decagon.dev");
+//        assertThrows(FailedMailException.class, () -> mailServiceImpl.sendMail(sendMailDto));
+//        verify(javaMailSender).send((SimpleMailMessage) any());
+//    }
 }
