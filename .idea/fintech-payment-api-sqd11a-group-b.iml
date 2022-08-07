@@ -17,7 +17,9 @@
       <configuration>
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
-        <datasource-mapping />
+        <datasource-mapping>
+          <factory-entry name="fintech-payment-api-sqd11a-group-b" value="bf664c55-94a2-4fdb-82cb-d49cb1eb6cb8" />
+        </datasource-mapping>
         <naming-strategy-map />
       </configuration>
     </facet>
