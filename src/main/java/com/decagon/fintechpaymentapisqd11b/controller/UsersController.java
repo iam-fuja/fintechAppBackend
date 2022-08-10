@@ -21,8 +21,8 @@ public class UsersController {
     private final UsersServiceImpl usersService;
 
 
-    @GetMapping("/token/refresh")
-    public ResponseEntity<String> refresh(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @GetMapping("/refresh-token")
+    public ResponseEntity<String> refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         usersService.refreshToken(request, response);
      return ResponseEntity.ok("refreshed.");
     }

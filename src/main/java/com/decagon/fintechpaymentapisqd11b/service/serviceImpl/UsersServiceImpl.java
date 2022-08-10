@@ -11,6 +11,7 @@ import com.decagon.fintechpaymentapisqd11b.service.UsersService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,6 +35,8 @@ public class UsersServiceImpl implements UsersService, UserDetailsService {
 
     private final UsersRepository usersRepository;
 
+    @Value("${hash}")
+    private String HASH;
 
     @Override
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException, IOException {
@@ -41,7 +44,7 @@ public class UsersServiceImpl implements UsersService, UserDetailsService {
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
             try{
                 String refresh_token = authorizationHeader.substring("Bearer ".length());
-                Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+                Algorithm algorithm = Algorithm.HMAC256(HASH.getBytes());
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(refresh_token);
                 String username = decodedJWT.getSubject();
@@ -84,6 +87,7 @@ public class UsersServiceImpl implements UsersService, UserDetailsService {
             throw new UsernameNotFoundException("User not found");
         }else {
             log.info("User Found");
+
             return new User(user.getUsername(), user.getPassword(), Collections.singleton(authority));
         }
     }
