@@ -46,7 +46,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Slf4j
 public class UsersServiceImpl implements UsersService, UserDetailsService {
 
-    private final static String USER_EMAIL_ALREADY_EXISTS_MSG = "Users with email %s already exists!";
+    private String USER_EMAIL_ALREADY_EXISTS_MSG = "Users with email %s already exists!";
     private final ConfirmationTokenServiceImpl confirmTokenService;
     private final WalletService walletService;
     private final WalletRepository walletRepository;

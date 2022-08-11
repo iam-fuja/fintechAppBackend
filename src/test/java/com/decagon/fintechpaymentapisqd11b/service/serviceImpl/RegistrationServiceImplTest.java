@@ -122,7 +122,7 @@ class RegistrationServiceImplTest {
         users.setPin("Pin");
         users.setRole("Role");
         users.setUpdatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        users.setUserStatus(UsersStatus.ACTIVE);
+        users.setUsersStatus(UsersStatus.ACTIVE);
         users.setUsername("janedoe");
         users.setWallet(wallet);
 
@@ -150,7 +150,7 @@ class RegistrationServiceImplTest {
         users1.setPin("Pin");
         users1.setRole("Role");
         users1.setUpdatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        users1.setUserStatus(UsersStatus.ACTIVE);
+        users1.setUsersStatus(UsersStatus.ACTIVE);
         users1.setUsername("janedoe");
         users1.setWallet(wallet1);
         registrationServiceImpl.resendVerificationEmail(users1);
@@ -189,7 +189,7 @@ class RegistrationServiceImplTest {
         users.setPin("Pin");
         users.setRole("Role");
         users.setUpdatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        users.setUserStatus(UsersStatus.ACTIVE);
+        users.setUsersStatus(UsersStatus.ACTIVE);
         users.setUsername("janedoe");
         users.setWallet(wallet);
 
@@ -217,7 +217,7 @@ class RegistrationServiceImplTest {
         users1.setPin("Pin");
         users1.setRole("Role");
         users1.setUpdatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        users1.setUserStatus(UsersStatus.ACTIVE);
+        users1.setUsersStatus(UsersStatus.ACTIVE);
         users1.setUsername("janedoe");
         users1.setWallet(wallet1);
         assertThrows(EmailAlreadyConfirmedException.class, () -> registrationServiceImpl.resendVerificationEmail(users1));
@@ -238,7 +238,7 @@ class RegistrationServiceImplTest {
         users.setPin("Pin");
         users.setRole("Role");
         users.setUpdatedAt(null);
-        users.setUserStatus(UsersStatus.ACTIVE);
+        users.setUsersStatus(UsersStatus.ACTIVE);
         users.setUsername("janedoe");
         users.setWallet(new Wallet());
 
@@ -266,7 +266,7 @@ class RegistrationServiceImplTest {
         users1.setPin("Pin");
         users1.setRole("Role");
         users1.setUpdatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        users1.setUserStatus(UsersStatus.ACTIVE);
+        users1.setUsersStatus(UsersStatus.ACTIVE);
         users1.setUsername("janedoe");
         users1.setWallet(wallet);
 
@@ -297,7 +297,7 @@ class RegistrationServiceImplTest {
         users.setPin("Pin");
         users.setRole("Role");
         users.setUpdatedAt(null);
-        users.setUserStatus(UsersStatus.ACTIVE);
+        users.setUsersStatus(UsersStatus.ACTIVE);
         users.setUsername("janedoe");
         users.setWallet(new Wallet());
 
@@ -325,7 +325,7 @@ class RegistrationServiceImplTest {
         users1.setPin("Pin");
         users1.setRole("Role");
         users1.setUpdatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        users1.setUserStatus(UsersStatus.ACTIVE);
+        users1.setUsersStatus(UsersStatus.ACTIVE);
         users1.setUsername("janedoe");
         users1.setWallet(wallet);
 
@@ -341,7 +341,7 @@ class RegistrationServiceImplTest {
         users2.setPin("Pin");
         users2.setRole("Role");
         users2.setUpdatedAt(null);
-        users2.setUserStatus(UsersStatus.ACTIVE);
+        users2.setUsersStatus(UsersStatus.ACTIVE);
         users2.setUsername("janedoe");
         users2.setWallet(new Wallet());
 
@@ -369,7 +369,7 @@ class RegistrationServiceImplTest {
         users3.setPin("Pin");
         users3.setRole("Role");
         users3.setUpdatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        users3.setUserStatus(UsersStatus.ACTIVE);
+        users3.setUsersStatus(UsersStatus.ACTIVE);
         users3.setUsername("janedoe");
         users3.setWallet(wallet1);
 
@@ -397,7 +397,7 @@ class RegistrationServiceImplTest {
         users4.setPin("Pin");
         users4.setRole("Role");
         users4.setUpdatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        users4.setUserStatus(UsersStatus.ACTIVE);
+        users4.setUsersStatus(UsersStatus.ACTIVE);
         users4.setUsername("janedoe");
         users4.setWallet(wallet2);
         ConfirmationToken confirmationToken = mock(ConfirmationToken.class);
