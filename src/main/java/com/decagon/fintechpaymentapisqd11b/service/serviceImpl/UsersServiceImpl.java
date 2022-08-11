@@ -40,7 +40,6 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 
-@AllArgsConstructor
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -63,7 +62,7 @@ public class UsersServiceImpl implements UsersService, UserDetailsService {
             throw new PasswordNotMatchingException("Passwords do not match!");
         }
 
-        boolean userExists = userRepository.findByEmail(userRegistrationDto.getEmail()).isPresent();
+        boolean userExists = usersRepository.findByEmail(userRegistrationDto.getEmail()).isPresent();
 
         if (userExists) {
             throw new EmailTakenException(
@@ -79,10 +78,10 @@ public class UsersServiceImpl implements UsersService, UserDetailsService {
         user.setPassword(userRegistrationDto.getPassword());
         user.setPin(userRegistrationDto.getPin());
         user.setCreatedAt(LocalDateTime.now());
-        user.setUserStatus(UsersStatus.INACTIVE);
+        user.setUsersStatus(UsersStatus.INACTIVE);
         user.setRole("USER");
         user.setUsername(userRegistrationDto.getUsername());
-        Users user1 = userRepository.save(user);
+        Users user1 = usersRepository.save(user);
 
         Wallet wallet = generateWallet(user1);
         wallet.setUsers(user1);
@@ -112,9 +111,9 @@ public class UsersServiceImpl implements UsersService, UserDetailsService {
 
     @Override
     public void enableUser(String email) {
-        Users user = userRepository.findByEmail(email).orElseThrow(() ->  new UserNotFoundException("Users not found."));
-        user.setUserStatus(UsersStatus.ACTIVE);
-        userRepository.save(user);
+        Users user = usersRepository.findByEmail(email).orElseThrow(() ->  new UserNotFoundException("Users not found."));
+        user.setUsersStatus(UsersStatus.ACTIVE);
+        usersRepository.save(user);
     }
 
     @Override
