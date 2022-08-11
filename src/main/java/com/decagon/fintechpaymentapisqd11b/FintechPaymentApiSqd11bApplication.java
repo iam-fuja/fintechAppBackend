@@ -10,5 +10,4 @@ public class FintechPaymentApiSqd11bApplication {
 		SpringApplication.run(FintechPaymentApiSqd11bApplication.class, args);
 	}
 
-
 }
