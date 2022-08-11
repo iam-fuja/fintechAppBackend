@@ -2,14 +2,10 @@ package com.decagon.fintechpaymentapisqd11b.entities;
 
 import com.decagon.fintechpaymentapisqd11b.enums.UsersStatus;
 import lombok.*;
-import org.hibernate.annotations.*;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.validation.constraints.*;
-import java.math.BigInteger;
-import java.time.LocalDateTime;
-import java.util.Date;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -17,7 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @ToString
 @Builder
-
+@Table(name = "users")
 @Entity
 public class Users extends BaseClass{
 
@@ -50,13 +46,20 @@ public class Users extends BaseClass{
 
     @Enumerated(EnumType.STRING)
     @NotNull
-    private UsersStatus usersStatus;
+    private UsersStatus userStatus;
 
-    @NotNull
-    private String token;
+//    @NotNull
+//    private String token;
 
     @OneToOne(mappedBy = "users")
     private Wallet wallet;
+
+    @Column(unique = true, length = 50)
+    @NotNull
+    private String username;
+
+    @NotNull
+    private String role;
 
 }
 

@@ -1,10 +1,12 @@
 package com.decagon.fintechpaymentapisqd11b.entities;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -17,7 +19,7 @@ import java.util.List;
 public class Wallet extends BaseClass{
 
     @NotNull
-    private BigInteger balance;
+    private Double balance = 0.0;
 
     @Column(length = 10, unique = true)
     @NotNull
@@ -32,4 +34,10 @@ public class Wallet extends BaseClass{
 
     @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Transaction> transactions;
+
+    @CreationTimestamp
+    private LocalDateTime createAt;
+
+    @UpdateTimestamp
+    private LocalDateTime modifyAt;
 }
