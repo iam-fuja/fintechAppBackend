@@ -4,8 +4,8 @@ import com.decagon.fintechpaymentapisqd11b.enums.UsersStatus;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Entity;
+import javax.validation.constraints.*;
 
 @Getter
 @Setter
@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @ToString
 @Builder
-@Table(name = "users")
+
 @Entity
 public class Users extends BaseClass{
 
@@ -46,7 +46,7 @@ public class Users extends BaseClass{
 
     @Enumerated(EnumType.STRING)
     @NotNull
-    private UsersStatus userStatus;
+    private UsersStatus usersStatus;
 
     @NotNull
     private String token;
