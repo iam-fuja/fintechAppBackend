@@ -10,7 +10,7 @@ import static org.mockito.Mockito.when;
 
 import com.decagon.fintechpaymentapisqd11b.customExceptions.EmailAlreadyConfirmedException;
 import com.decagon.fintechpaymentapisqd11b.dto.SendMailDto;
-import com.decagon.fintechpaymentapisqd11b.dto.UsersRegistrationDto;
+import com.decagon.fintechpaymentapisqd11b.dto.UsersDTO;
 import com.decagon.fintechpaymentapisqd11b.entities.Users;
 import com.decagon.fintechpaymentapisqd11b.entities.Wallet;
 import com.decagon.fintechpaymentapisqd11b.enums.UsersStatus;
@@ -20,6 +20,7 @@ import com.decagon.fintechpaymentapisqd11b.service.MailService;
 import com.decagon.fintechpaymentapisqd11b.service.UsersService;
 import com.decagon.fintechpaymentapisqd11b.validations.token.ConfirmationToken;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -55,43 +56,80 @@ class RegistrationServiceImplTest {
     @MockBean
     private UsersService usersService;
 
+    /**
+     * Method under test: {@link RegistrationServiceImpl#register(UsersDTO)}
+     */
     @Test
     void testRegister() throws JSONException, MailException {
-        when(usersService.registerUser((UsersRegistrationDto) any())).thenReturn("Register User");
+        when(usersService.registerUser((UsersDTO) any())).thenReturn("Register User");
         when(mailService.sendMail((SendMailDto) any())).thenReturn("Send Mail");
         assertEquals("Please check your email for account activation link.",
-                registrationServiceImpl.register(new UsersRegistrationDto("Jane", "Doe", "janedoe", "BVN",
-                        "jane.doe@example.org", "4105551212", "iloveyou", "iloveyou", "Pin")));
-        verify(usersService).registerUser((UsersRegistrationDto) any());
+                registrationServiceImpl.register(new UsersDTO("Jane", "Doe", "janedoe", "BVN", "jane.doe@example.org",
+                        "4105551212", "iloveyou", "iloveyou", "Pin")));
+        verify(usersService).registerUser((UsersDTO) any());
         verify(mailService).sendMail((SendMailDto) any());
     }
 
+    /**
+     * Method under test: {@link RegistrationServiceImpl#register(UsersDTO)}
+     */
     @Test
     void testRegister2() throws JSONException, MailException {
-        when(usersService.registerUser((UsersRegistrationDto) any())).thenReturn("Register User");
+        when(usersService.registerUser((UsersDTO) any())).thenReturn("Register User");
         when(mailService.sendMail((SendMailDto) any())).thenThrow(new EmailAlreadyConfirmedException("An error occurred"));
-        assertThrows(EmailAlreadyConfirmedException.class,
-                () -> registrationServiceImpl.register(new UsersRegistrationDto("Jane", "Doe", "janedoe", "BVN",
-                        "jane.doe@example.org", "4105551212", "iloveyou", "iloveyou", "Pin")));
-        verify(usersService).registerUser((UsersRegistrationDto) any());
+        assertThrows(EmailAlreadyConfirmedException.class, () -> registrationServiceImpl.register(new UsersDTO("Jane",
+                "Doe", "janedoe", "BVN", "jane.doe@example.org", "4105551212", "iloveyou", "iloveyou", "Pin")));
+        verify(usersService).registerUser((UsersDTO) any());
         verify(mailService).sendMail((SendMailDto) any());
     }
 
+    /**
+     * Method under test: {@link RegistrationServiceImpl#register(UsersDTO)}
+     */
     @Test
-    void testSendMail() throws MailException {
+    @Disabled("TODO: Complete this test")
+    void testRegister3() throws JSONException, MailException {
+        // TODO: Complete this test.
+        //   Reason: R013 No inputs found that don't throw a trivial exception.
+        //   Diffblue Cover tried to run the arrange/act section, but the method under
+        //   test threw
+        //   java.lang.NullPointerException
+        //       at com.decagon.fintechpaymentapisqd11b.service.serviceImpl.RegistrationServiceImpl.register(RegistrationServiceImpl.java:36)
+        //   In order to prevent register(UsersDTO)
+        //   from throwing NullPointerException, add constructors or factory
+        //   methods that make it easier to construct fully initialized objects used in
+        //   register(UsersDTO).
+        //   See https://diff.blue/R013 to resolve this issue.
+
+        when(usersService.registerUser((UsersDTO) any())).thenReturn("Register User");
+        when(mailService.sendMail((SendMailDto) any())).thenReturn("Send Mail");
+        registrationServiceImpl.register(null);
+    }
+
+    /**
+     * Method under test: {@link RegistrationServiceImpl#sendMailVerificationLink(String, String, String)}
+     */
+    @Test
+    void testSendMailVerificationLink() throws MailException {
         when(mailService.sendMail((SendMailDto) any())).thenReturn("Send Mail");
         registrationServiceImpl.sendMailVerificationLink("Name", "jane.doe@example.org", "Link");
         verify(mailService).sendMail((SendMailDto) any());
     }
 
+    /**
+     * Method under test: {@link RegistrationServiceImpl#sendMailVerificationLink(String, String, String)}
+     */
     @Test
-    void testSendMail2() throws MailException {
+    void testSendMailVerificationLink2() throws MailException {
         when(mailService.sendMail((SendMailDto) any())).thenThrow(new EmailAlreadyConfirmedException("An error occurred"));
         assertThrows(EmailAlreadyConfirmedException.class,
                 () -> registrationServiceImpl.sendMailVerificationLink("Name", "jane.doe@example.org", "Link"));
         verify(mailService).sendMail((SendMailDto) any());
     }
 
+    /**
+     * Method under test: {@link RegistrationServiceImpl#resendVerificationEmail(Users)}
+     */
     @Test
     void testResendVerificationEmail() throws JSONException, MailException {
         doNothing().when(usersService).enableUser((String) any());
@@ -100,7 +138,7 @@ class RegistrationServiceImplTest {
 
         Wallet wallet = new Wallet();
         wallet.setAccountNumber("42");
-        wallet.setBalance(10.0d);
+        wallet.setBalance(null);
         wallet.setBankName("Bank Name");
         wallet.setCreateAt(null);
         wallet.setCreatedAt(null);
@@ -121,14 +159,15 @@ class RegistrationServiceImplTest {
         users.setPhoneNumber("4105551212");
         users.setPin("Pin");
         users.setRole("Role");
+        users.setToken("ABC123");
         users.setUpdatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        users.setUsersStatus(UsersStatus.ACTIVE);
         users.setUsername("janedoe");
+        users.setUsersStatus(UsersStatus.ACTIVE);
         users.setWallet(wallet);
 
         Wallet wallet1 = new Wallet();
         wallet1.setAccountNumber("42");
-        wallet1.setBalance(10.0d);
+        wallet1.setBalance(BigDecimal.valueOf(42L));
         wallet1.setBankName("Bank Name");
         wallet1.setCreateAt(LocalDateTime.of(1, 1, 1, 1, 1));
         wallet1.setCreatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
@@ -149,9 +188,10 @@ class RegistrationServiceImplTest {
         users1.setPhoneNumber("4105551212");
         users1.setPin("Pin");
         users1.setRole("Role");
+        users1.setToken("ABC123");
         users1.setUpdatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        users1.setUsersStatus(UsersStatus.ACTIVE);
         users1.setUsername("janedoe");
+        users1.setUsersStatus(UsersStatus.ACTIVE);
         users1.setWallet(wallet1);
         registrationServiceImpl.resendVerificationEmail(users1);
         verify(usersService).enableUser((String) any());
@@ -159,6 +199,9 @@ class RegistrationServiceImplTest {
         verify(mailService).sendMail((SendMailDto) any());
     }
 
+    /**
+     * Method under test: {@link RegistrationServiceImpl#resendVerificationEmail(Users)}
+     */
     @Test
     void testResendVerificationEmail2() throws JSONException, MailException {
         doNothing().when(usersService).enableUser((String) any());
@@ -167,7 +210,7 @@ class RegistrationServiceImplTest {
 
         Wallet wallet = new Wallet();
         wallet.setAccountNumber("42");
-        wallet.setBalance(10.0d);
+        wallet.setBalance(null);
         wallet.setBankName("Bank Name");
         wallet.setCreateAt(null);
         wallet.setCreatedAt(null);
@@ -188,14 +231,15 @@ class RegistrationServiceImplTest {
         users.setPhoneNumber("4105551212");
         users.setPin("Pin");
         users.setRole("Role");
+        users.setToken("ABC123");
         users.setUpdatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        users.setUsersStatus(UsersStatus.ACTIVE);
         users.setUsername("janedoe");
+        users.setUsersStatus(UsersStatus.ACTIVE);
         users.setWallet(wallet);
 
         Wallet wallet1 = new Wallet();
         wallet1.setAccountNumber("42");
-        wallet1.setBalance(10.0d);
+        wallet1.setBalance(BigDecimal.valueOf(42L));
         wallet1.setBankName("Bank Name");
         wallet1.setCreateAt(LocalDateTime.of(1, 1, 1, 1, 1));
         wallet1.setCreatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
@@ -216,14 +260,18 @@ class RegistrationServiceImplTest {
         users1.setPhoneNumber("4105551212");
         users1.setPin("Pin");
         users1.setRole("Role");
+        users1.setToken("ABC123");
         users1.setUpdatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        users1.setUsersStatus(UsersStatus.ACTIVE);
         users1.setUsername("janedoe");
+        users1.setUsersStatus(UsersStatus.ACTIVE);
         users1.setWallet(wallet1);
         assertThrows(EmailAlreadyConfirmedException.class, () -> registrationServiceImpl.resendVerificationEmail(users1));
         verify(mailService).sendMail((SendMailDto) any());
     }
 
+    /**
+     * Method under test: {@link RegistrationServiceImpl#confirmToken(String)}
+     */
     @Test
     void testConfirmToken() throws JSONException {
         Users users = new Users();
@@ -237,14 +285,15 @@ class RegistrationServiceImplTest {
         users.setPhoneNumber("4105551212");
         users.setPin("Pin");
         users.setRole("Role");
+        users.setToken("ABC123");
         users.setUpdatedAt(null);
-        users.setUsersStatus(UsersStatus.ACTIVE);
         users.setUsername("janedoe");
+        users.setUsersStatus(UsersStatus.ACTIVE);
         users.setWallet(new Wallet());
 
         Wallet wallet = new Wallet();
         wallet.setAccountNumber("42");
-        wallet.setBalance(10.0d);
+        wallet.setBalance(BigDecimal.valueOf(42L));
         wallet.setBankName("Bank Name");
         wallet.setCreateAt(LocalDateTime.of(1, 1, 1, 1, 1));
         wallet.setCreatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
@@ -265,9 +314,10 @@ class RegistrationServiceImplTest {
         users1.setPhoneNumber("4105551212");
         users1.setPin("Pin");
         users1.setRole("Role");
+        users1.setToken("ABC123");
         users1.setUpdatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        users1.setUsersStatus(UsersStatus.ACTIVE);
         users1.setUsername("janedoe");
+        users1.setUsersStatus(UsersStatus.ACTIVE);
         users1.setWallet(wallet);
 
         ConfirmationToken confirmationToken = new ConfirmationToken();
@@ -283,6 +333,9 @@ class RegistrationServiceImplTest {
         verify(confirmationTokenService).getToken((String) any());
     }
 
+    /**
+     * Method under test: {@link RegistrationServiceImpl#confirmToken(String)}
+     */
     @Test
     void testConfirmToken2() throws JSONException {
         Users users = new Users();
@@ -296,14 +349,15 @@ class RegistrationServiceImplTest {
         users.setPhoneNumber("4105551212");
         users.setPin("Pin");
         users.setRole("Role");
+        users.setToken("ABC123");
         users.setUpdatedAt(null);
-        users.setUsersStatus(UsersStatus.ACTIVE);
         users.setUsername("janedoe");
+        users.setUsersStatus(UsersStatus.ACTIVE);
         users.setWallet(new Wallet());
 
         Wallet wallet = new Wallet();
         wallet.setAccountNumber("42");
-        wallet.setBalance(10.0d);
+        wallet.setBalance(BigDecimal.valueOf(42L));
         wallet.setBankName("Bank Name");
         wallet.setCreateAt(LocalDateTime.of(1, 1, 1, 1, 1));
         wallet.setCreatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
@@ -324,9 +378,10 @@ class RegistrationServiceImplTest {
         users1.setPhoneNumber("4105551212");
         users1.setPin("Pin");
         users1.setRole("Role");
+        users1.setToken("ABC123");
         users1.setUpdatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        users1.setUsersStatus(UsersStatus.ACTIVE);
         users1.setUsername("janedoe");
+        users1.setUsersStatus(UsersStatus.ACTIVE);
         users1.setWallet(wallet);
 
         Users users2 = new Users();
@@ -340,14 +395,15 @@ class RegistrationServiceImplTest {
         users2.setPhoneNumber("4105551212");
         users2.setPin("Pin");
         users2.setRole("Role");
+        users2.setToken("ABC123");
         users2.setUpdatedAt(null);
-        users2.setUsersStatus(UsersStatus.ACTIVE);
         users2.setUsername("janedoe");
+        users2.setUsersStatus(UsersStatus.ACTIVE);
         users2.setWallet(new Wallet());
 
         Wallet wallet1 = new Wallet();
         wallet1.setAccountNumber("42");
-        wallet1.setBalance(10.0d);
+        wallet1.setBalance(BigDecimal.valueOf(42L));
         wallet1.setBankName("Bank Name");
         wallet1.setCreateAt(LocalDateTime.of(1, 1, 1, 1, 1));
         wallet1.setCreatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
@@ -368,14 +424,15 @@ class RegistrationServiceImplTest {
         users3.setPhoneNumber("4105551212");
         users3.setPin("Pin");
         users3.setRole("Role");
+        users3.setToken("ABC123");
         users3.setUpdatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        users3.setUsersStatus(UsersStatus.ACTIVE);
         users3.setUsername("janedoe");
+        users3.setUsersStatus(UsersStatus.ACTIVE);
         users3.setWallet(wallet1);
 
         Wallet wallet2 = new Wallet();
         wallet2.setAccountNumber("42");
-        wallet2.setBalance(10.0d);
+        wallet2.setBalance(BigDecimal.valueOf(42L));
         wallet2.setBankName("Bank Name");
         wallet2.setCreateAt(LocalDateTime.of(1, 1, 1, 1, 1));
         wallet2.setCreatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
@@ -396,9 +453,10 @@ class RegistrationServiceImplTest {
         users4.setPhoneNumber("4105551212");
         users4.setPin("Pin");
         users4.setRole("Role");
+        users4.setToken("ABC123");
         users4.setUpdatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
-        users4.setUsersStatus(UsersStatus.ACTIVE);
         users4.setUsername("janedoe");
+        users4.setUsersStatus(UsersStatus.ACTIVE);
         users4.setWallet(wallet2);
         ConfirmationToken confirmationToken = mock(ConfirmationToken.class);
         when(confirmationToken.getUser()).thenReturn(users4);

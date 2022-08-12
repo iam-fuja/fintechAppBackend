@@ -4,7 +4,7 @@ import com.decagon.fintechpaymentapisqd11b.customExceptions.EmailAlreadyConfirme
 import com.decagon.fintechpaymentapisqd11b.customExceptions.TokenNotFoundException;
 import com.decagon.fintechpaymentapisqd11b.customExceptions.UserNotFoundException;
 import com.decagon.fintechpaymentapisqd11b.dto.SendMailDto;
-import com.decagon.fintechpaymentapisqd11b.dto.UsersRegistrationDto;
+import com.decagon.fintechpaymentapisqd11b.dto.UsersDTO;
 import com.decagon.fintechpaymentapisqd11b.entities.Users;
 import com.decagon.fintechpaymentapisqd11b.repository.UsersRepository;
 import com.decagon.fintechpaymentapisqd11b.service.ConfirmationTokenService;
@@ -29,11 +29,11 @@ public class RegistrationServiceImpl implements RegistrationService {
     private final UsersRepository usersRepository;
 
     @Override
-    public String register(UsersRegistrationDto userRegistrationDto) throws JSONException {
-        String token = usersService.registerUser(userRegistrationDto);
+    public String register(UsersDTO usersDTO) throws JSONException {
+        String token = usersService.registerUser(usersDTO);
 
         String link = Constant.EMAIL_VERIFICATION_LINK + token;
-        sendMailVerificationLink(userRegistrationDto.getFirstName(), userRegistrationDto.getEmail(), link);
+        sendMailVerificationLink(usersDTO.getFirstName(), usersDTO.getEmail(), link);
 
         return "Please check your email for account activation link.";
     }

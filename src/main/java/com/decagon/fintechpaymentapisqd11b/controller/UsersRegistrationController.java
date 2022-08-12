@@ -1,6 +1,6 @@
 package com.decagon.fintechpaymentapisqd11b.controller;
 
-import com.decagon.fintechpaymentapisqd11b.dto.UsersRegistrationDto;
+import com.decagon.fintechpaymentapisqd11b.dto.UsersDTO;
 import com.decagon.fintechpaymentapisqd11b.service.RegistrationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.configurationprocessor.json.JSONException;
@@ -13,8 +13,8 @@ public class UsersRegistrationController {
         public final RegistrationService registrationService;
 
         @PostMapping("/register")
-        public String register(@RequestBody UsersRegistrationDto userRegistrationDto) throws JSONException {
-            return registrationService.register(userRegistrationDto);
+        public String register(@RequestBody UsersDTO usersDTO) throws JSONException {
+            return registrationService.register(usersDTO);
         }
 
         @GetMapping("/confirmToken")

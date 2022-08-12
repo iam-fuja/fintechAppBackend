@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collections;
 
@@ -43,7 +44,7 @@ public class WalletServiceImpl implements WalletService {
 
         return Wallet.builder()
                 .accountNumber(body.getData().getAccountNumber())
-                .balance(0.00)
+                .balance(BigDecimal.valueOf(0.00))
                 .bankName(body.getData().getBankName())
                 .createAt(LocalDateTime.now())
                 .modifyAt(LocalDateTime.now())

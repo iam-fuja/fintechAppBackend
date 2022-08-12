@@ -58,5 +58,9 @@ public class Users extends BaseClass{
     @OneToOne(mappedBy = "users")
     private Wallet wallet;
 
+    private String role;
+
+    private String username;
+
 }
 
