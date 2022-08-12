@@ -2,6 +2,7 @@ package com.decagon.fintechpaymentapisqd11b.entities;
 
 import com.decagon.fintechpaymentapisqd11b.enums.UsersStatus;
 import lombok.*;
+
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.validation.constraints.*;
@@ -53,6 +54,7 @@ public class Users extends BaseClass{
     @OneToOne(mappedBy = "users")
     private Wallet wallet;
 
+    @NotNull
     private String role;
 
     private String username;

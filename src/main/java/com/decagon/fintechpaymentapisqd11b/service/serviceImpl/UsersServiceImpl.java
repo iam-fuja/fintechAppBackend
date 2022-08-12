@@ -19,9 +19,24 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 
 
-@Service
-@RequiredArgsConstructor
-public class UsersServiceImpl implements UsersService {
+import com.decagon.fintechpaymentapisqd11b.entities.Users;
+import com.decagon.fintechpaymentapisqd11b.repository.UsersRepository;
+import com.decagon.fintechpaymentapisqd11b.service.UsersService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import javax.transaction.Transactional;
+import java.util.*;
+
+
+@Service @Transactional
+@RequiredArgsConstructor @Slf4j
+public class UsersServiceImpl implements UsersService, UserDetailsService {
 
     private String USER_EMAIL_ALREADY_EXISTS_MSG = "Users with email %s already exists!";
     private final ConfirmationTokenServiceImpl confirmTokenService;
@@ -89,5 +104,19 @@ public class UsersServiceImpl implements UsersService {
         Users user = usersRepository.findByEmail(email).orElseThrow(() ->  new UserNotFoundException("Users not found."));
         user.setUsersStatus(UsersStatus.ACTIVE);
         usersRepository.save(user);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Users user = usersRepository.findUsersByEmail(email);
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("USER");
+        if(user == null){
+            log.error("User not found");
+            throw new UsernameNotFoundException("User not found");
+        }else {
+            log.info("User Found");
+
+            return new User(user.getEmail(), user.getPassword(), Collections.singleton(authority));
+        }
     }
 }
