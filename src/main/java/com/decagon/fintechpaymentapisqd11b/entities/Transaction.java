@@ -3,13 +3,10 @@ package com.decagon.fintechpaymentapisqd11b.entities;
 import com.decagon.fintechpaymentapisqd11b.enums.TransactionType;
 import com.decagon.fintechpaymentapisqd11b.enums.UsersStatus;
 import lombok.*;
-import org.hibernate.annotations.*;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.validation.constraints.*;
-import java.math.BigInteger;
-import java.time.LocalDateTime;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Getter
@@ -21,9 +18,8 @@ import java.util.Date;
 
 @Entity
 public class Transaction extends BaseClass{
-
     @NotNull
-    private BigInteger amount;
+    private BigDecimal amount;
 
     @NotNull
     @Column(length = 11)
@@ -34,7 +30,7 @@ public class Transaction extends BaseClass{
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private UsersStatus usersStatus;
+    private UsersStatus userStatus;
 
     @NotNull
     private String clientRef;

@@ -1,9 +1,10 @@
 package com.decagon.fintechpaymentapisqd11b.service;
 
-import com.decagon.fintechpaymentapisqd11b.customExceptions.WalletNotFoundException;
-import com.decagon.fintechpaymentapisqd11b.dto.WalletDto;
+import com.decagon.fintechpaymentapisqd11b.entities.Users;
+import com.decagon.fintechpaymentapisqd11b.entities.Wallet;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 
 public interface WalletService {
 
-    WalletDto viewWalletDetails() throws WalletNotFoundException;
+    Wallet createWallet(Users walletRequestDetails) throws JSONException;
 }
