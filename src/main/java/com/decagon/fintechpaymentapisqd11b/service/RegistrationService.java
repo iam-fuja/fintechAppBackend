@@ -6,7 +6,7 @@ import org.springframework.boot.configurationprocessor.json.JSONException;
 
 public interface RegistrationService {
 
-    String register(UsersDTO userRegistrationDto) throws JSONException;
+    String register(UsersDTO usersDTO) throws JSONException;
     void sendMailVerificationLink(String name, String email, String link);
     void resendVerificationEmail(Users user) throws JSONException;
     String confirmToken(String token) throws JSONException;
