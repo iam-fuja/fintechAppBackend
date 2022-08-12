@@ -6,7 +6,8 @@ import org.hibernate.annotations.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @MappedSuperclass
 @NoArgsConstructor
 @AllArgsConstructor

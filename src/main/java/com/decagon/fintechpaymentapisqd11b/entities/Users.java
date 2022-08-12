@@ -6,7 +6,8 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.validation.constraints.*;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
