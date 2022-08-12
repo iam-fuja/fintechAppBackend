@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.decagon.fintechpaymentapisqd11b.entities.SecretKey;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,8 +25,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
 public class CustomAuthorisationFilter extends OncePerRequestFilter{
-    @Value("${hash}")
-    private String HASH;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -53,17 +52,17 @@ public class CustomAuthorisationFilter extends OncePerRequestFilter{
     private void authorize(String authorizationHeader ){
 
         String token = authorizationHeader.substring("Bearer ".length());
-        Algorithm algorithm = Algorithm.HMAC256(HASH.getBytes());
+        Algorithm algorithm = Algorithm.HMAC256(SecretKey.KEYS.getBytes());
         JWTVerifier verifier = JWT.require(algorithm).build();
         DecodedJWT decodedJWT = verifier.verify(token);
-        String username = decodedJWT.getSubject();
+        String email = decodedJWT.getSubject();
         String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
         Collection<SimpleGrantedAuthority> grantedAuthorities = new ArrayList<>();
         stream(roles).forEach(role -> {
             grantedAuthorities.add(new SimpleGrantedAuthority(role));
         });
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                new UsernamePasswordAuthenticationToken(username, null,grantedAuthorities);
+                new UsernamePasswordAuthenticationToken(email, null,grantedAuthorities);
         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 
 }

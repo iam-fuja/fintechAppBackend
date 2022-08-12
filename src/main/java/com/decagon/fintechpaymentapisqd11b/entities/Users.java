@@ -54,9 +54,6 @@ public class Users extends BaseClass{
     @OneToOne(mappedBy = "users")
     private Wallet wallet;
 
-    @Column(unique = true, length = 50)
-    @NotNull
-    private String username;
 
     @NotNull
     private String role;
