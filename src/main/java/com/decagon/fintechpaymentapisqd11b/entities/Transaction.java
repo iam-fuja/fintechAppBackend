@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Getter
@@ -18,7 +19,7 @@ import java.util.Date;
 @Entity
 public class Transaction extends BaseClass{
     @NotNull
-    private Double amount = 0.0;
+    private BigDecimal amount;
 
     @NotNull
     @Column(length = 11)

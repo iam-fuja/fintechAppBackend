@@ -6,6 +6,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,7 +20,7 @@ import java.util.List;
 public class Wallet extends BaseClass{
 
     @NotNull
-    private Double balance = 0.0;
+    private BigDecimal balance;
 
     @Column(length = 10, unique = true)
     @NotNull
