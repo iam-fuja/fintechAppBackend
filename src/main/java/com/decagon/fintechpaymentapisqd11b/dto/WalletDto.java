@@ -13,5 +13,5 @@ public class WalletDto {
 
     private String accountNumber;
     private BigDecimal balance;
-    private String bankName = "Wema Bank";
+    private String bankName;
 }

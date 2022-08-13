@@ -1,6 +1,5 @@
 package com.decagon.fintechpaymentapisqd11b.controller;
 
-import com.decagon.fintechpaymentapisqd11b.customExceptions.WalletNotFoundException;
 import com.decagon.fintechpaymentapisqd11b.dto.LoginRequestPayload;
 import com.decagon.fintechpaymentapisqd11b.dto.LoginResponseDto;
 import com.decagon.fintechpaymentapisqd11b.dto.WalletDto;
@@ -11,15 +10,15 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-//@RequestMapping(path = "/api/")
+@RequestMapping(path = "/api/")
 @Slf4j
 public class UsersController {
+
+    private final UsersServiceImpl usersService;
 
     private final LoginServiceImpl loginService;
 
