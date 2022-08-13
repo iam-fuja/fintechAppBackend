@@ -2,6 +2,7 @@ package com.decagon.fintechpaymentapisqd11b.controller;
 
 import com.decagon.fintechpaymentapisqd11b.dto.LoginRequestPayload;
 import com.decagon.fintechpaymentapisqd11b.dto.LoginResponseDto;
+import com.decagon.fintechpaymentapisqd11b.dto.UsersResponse;
 import com.decagon.fintechpaymentapisqd11b.service.serviceImpl.LoginServiceImpl;
 import com.decagon.fintechpaymentapisqd11b.service.serviceImpl.UsersServiceImpl;
 import lombok.AllArgsConstructor;
@@ -29,7 +30,13 @@ public class UsersController {
             String token = loginService.login(loginRequestPayload);
             return new ResponseEntity<>(new LoginResponseDto(token),HttpStatus.OK);
 
+    }
 
+
+    @GetMapping("/viewUser")
+    public ResponseEntity<UsersResponse> getUser(){
+        UsersResponse usersResponse = usersService.getUser();
+        return new ResponseEntity<>(usersResponse, HttpStatus.OK);
     }
 
 }

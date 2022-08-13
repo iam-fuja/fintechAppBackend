@@ -3,7 +3,9 @@ package com.decagon.fintechpaymentapisqd11b.service.serviceImpl;
 import com.decagon.fintechpaymentapisqd11b.customExceptions.EmailTakenException;
 import com.decagon.fintechpaymentapisqd11b.customExceptions.PasswordNotMatchingException;
 import com.decagon.fintechpaymentapisqd11b.customExceptions.UserNotFoundException;
+import com.decagon.fintechpaymentapisqd11b.customExceptions.UsersNotFoundException;
 import com.decagon.fintechpaymentapisqd11b.dto.UsersDTO;
+import com.decagon.fintechpaymentapisqd11b.dto.UsersResponse;
 import com.decagon.fintechpaymentapisqd11b.entities.Users;
 import com.decagon.fintechpaymentapisqd11b.entities.Wallet;
 import com.decagon.fintechpaymentapisqd11b.enums.UsersStatus;
@@ -13,6 +15,7 @@ import com.decagon.fintechpaymentapisqd11b.service.UsersService;
 import com.decagon.fintechpaymentapisqd11b.service.WalletService;
 import com.decagon.fintechpaymentapisqd11b.validations.token.ConfirmationToken;
 import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -97,6 +100,22 @@ public class UsersServiceImpl implements UsersService, UserDetailsService {
     @Override
     public Wallet generateWallet(Users user) throws JSONException {
         return walletService.createWallet(user);
+    }
+
+    @Override
+    public UsersResponse getUser() {
+
+        User user1 = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Users users1 = usersRepository.findUsersByEmail(user1.getUsername());
+        UsersResponse usersResponse = UsersResponse.builder()
+                .firstName(users1.getFirstName())
+                .lastName(users1.getLastName())
+                .email(users1.getEmail())
+                .phoneNumber(users1.getPhoneNumber())
+                .BVN(users1.getBVN())
+                .build();
+        return usersResponse;
+
     }
 
     @Override
