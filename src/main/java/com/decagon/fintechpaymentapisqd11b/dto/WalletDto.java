@@ -5,12 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
 public class WalletDto {
 
     private String accountNumber;
-    private BigInteger balance;
+    private BigDecimal balance;
     private String bankName = "Wema Bank";
 }

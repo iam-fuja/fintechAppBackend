@@ -17,10 +17,9 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/v1")
+//@RequestMapping(path = "/api/")
 @Slf4j
 public class UsersController {
-    private final UsersServiceImpl usersService;
 
     private final LoginServiceImpl loginService;
 
@@ -32,11 +31,12 @@ public class UsersController {
     {
             log.info("successful");
             String token = loginService.login(loginRequestPayload);
+                walletService.getToken(token);
             return new ResponseEntity<>(new LoginResponseDto(token),HttpStatus.OK);
     }
 
     @GetMapping("/viewWalletDetails")
-    public ResponseEntity<WalletDto> viewWalletDetails() throws WalletNotFoundException {
+    public ResponseEntity<WalletDto> viewWalletDetails()  {
         return new ResponseEntity<>(walletService.viewWalletDetails(),HttpStatus.OK);
     }
 

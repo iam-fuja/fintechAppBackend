@@ -36,7 +36,7 @@ public class Users extends BaseClass{
     @NotNull
     private String phoneNumber;
 
-    @Column(length = 64)
+//    @Column(length = 64)
     @NotNull
     private String password;
 
@@ -48,7 +48,7 @@ public class Users extends BaseClass{
     @NotNull
     private UsersStatus usersStatus;
 
-    @NotNull
+//    @NotNull
     private String token;
 
     @OneToOne(mappedBy = "users")
