@@ -16,10 +16,15 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 @Service
 public class JwtUtils {
+
+
+
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
 
     }
+
+
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
@@ -44,7 +49,7 @@ public class JwtUtils {
                 .signWith(SignatureAlgorithm.HS256, SecretKey.KEYS).compact();
     }
     public boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
+        String username = extractUsername(token);
         return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 }

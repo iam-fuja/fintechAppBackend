@@ -16,6 +16,7 @@ import com.decagon.fintechpaymentapisqd11b.service.WalletService;
 import com.decagon.fintechpaymentapisqd11b.validations.token.ConfirmationToken;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -46,6 +47,7 @@ public class UsersServiceImpl implements UsersService, UserDetailsService {
     private final WalletService walletService;
     private final WalletRepository walletRepository;
     private final UsersRepository usersRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
     @Override
@@ -68,7 +70,7 @@ public class UsersServiceImpl implements UsersService, UserDetailsService {
         user.setEmail(usersDTO.getEmail());
         user.setPhoneNumber(usersDTO.getPhoneNumber());
         user.setBVN(usersDTO.getBVN());
-        user.setPassword(usersDTO.getPassword());
+        user.setPassword(bCryptPasswordEncoder.encode(usersDTO.getPassword()));
         user.setPin(usersDTO.getPin());
         user.setCreatedAt(LocalDateTime.now());
         user.setUsersStatus(UsersStatus.INACTIVE);
