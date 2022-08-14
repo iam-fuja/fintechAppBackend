@@ -9,12 +9,15 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.decagon.fintechpaymentapisqd11b.customExceptions.EmailTakenException;
+import com.decagon.fintechpaymentapisqd11b.customExceptions.PasswordNotMatchingException;
 import com.decagon.fintechpaymentapisqd11b.dto.UsersDTO;
+import com.decagon.fintechpaymentapisqd11b.dto.UsersResponse;
 import com.decagon.fintechpaymentapisqd11b.entities.Users;
 import com.decagon.fintechpaymentapisqd11b.entities.Wallet;
 import com.decagon.fintechpaymentapisqd11b.enums.UsersStatus;
 import com.decagon.fintechpaymentapisqd11b.repository.UsersRepository;
 import com.decagon.fintechpaymentapisqd11b.repository.WalletRepository;
+import com.decagon.fintechpaymentapisqd11b.security.filter.JwtUtils;
 import com.decagon.fintechpaymentapisqd11b.service.WalletService;
 import com.decagon.fintechpaymentapisqd11b.validations.token.ConfirmationToken;
 
@@ -28,12 +31,20 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ContextConfiguration(classes = {UsersServiceImpl.class})
+@ContextConfiguration(classes = {UsersServiceImpl.class, BCryptPasswordEncoder.class,
+        WalletService.class})
 @ExtendWith(SpringExtension.class)
 class UsersServiceImplTest {
+    @MockBean
+    private JwtUtils jwtUtils;
+
+    @MockBean
+    private WalletServiceImpl walletServiceImpl;
+
     @MockBean
     private ConfirmationTokenServiceImpl confirmationTokenServiceImpl;
 
@@ -266,6 +277,107 @@ class UsersServiceImplTest {
         assertSame(wallet2, actualGenerateWalletResult);
         assertEquals("42", actualGenerateWalletResult.getBalance().toString());
         verify(walletService).createWallet((Users) any());
+    }
+
+
+    @Test
+    void testGetUser() {
+        when(jwtUtils.extractUsername((String) any())).thenReturn("janedoe");
+
+        Users users = new Users();
+        users.setBVN("BVN");
+        users.setCreatedAt(null);
+        users.setEmail("jane.doe@example.org");
+        users.setFirstName("Jane");
+        users.setId(123L);
+        users.setLastName("Doe");
+        users.setPassword("iloveyou");
+        users.setPhoneNumber("4105551212");
+        users.setPin("Pin");
+        users.setRole("Role");
+        users.setToken("ABC123");
+        users.setUpdatedAt(null);
+        users.setUsername("janedoe");
+        users.setUsersStatus(UsersStatus.ACTIVE);
+        users.setWallet(new Wallet());
+
+        Wallet wallet = new Wallet();
+        wallet.setAccountNumber("42");
+        wallet.setBalance(BigDecimal.valueOf(42L));
+        wallet.setBankName("Bank Name");
+        wallet.setCreateAt(LocalDateTime.of(1, 1, 1, 1, 1));
+        wallet.setCreatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
+        wallet.setId(123L);
+        wallet.setModifyAt(LocalDateTime.of(1, 1, 1, 1, 1));
+        wallet.setTransactions(new ArrayList<>());
+        wallet.setUpdatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
+        wallet.setUsers(users);
+
+        Users users1 = new Users();
+        users1.setBVN("BVN");
+        users1.setCreatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
+        users1.setEmail("jane.doe@example.org");
+        users1.setFirstName("Jane");
+        users1.setId(123L);
+        users1.setLastName("Doe");
+        users1.setPassword("iloveyou");
+        users1.setPhoneNumber("4105551212");
+        users1.setPin("Pin");
+        users1.setRole("Role");
+        users1.setToken("ABC123");
+        users1.setUpdatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
+        users1.setUsername("janedoe");
+        users1.setUsersStatus(UsersStatus.ACTIVE);
+        users1.setWallet(wallet);
+
+        Wallet wallet1 = new Wallet();
+        wallet1.setAccountNumber("42");
+        wallet1.setBalance(BigDecimal.valueOf(42L));
+        wallet1.setBankName("Bank Name");
+        wallet1.setCreateAt(LocalDateTime.of(1, 1, 1, 1, 1));
+        wallet1.setCreatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
+        wallet1.setId(123L);
+        wallet1.setModifyAt(LocalDateTime.of(1, 1, 1, 1, 1));
+        wallet1.setTransactions(new ArrayList<>());
+        wallet1.setUpdatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
+        wallet1.setUsers(users1);
+
+        Users users2 = new Users();
+        users2.setBVN("BVN");
+        users2.setCreatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
+        users2.setEmail("jane.doe@example.org");
+        users2.setFirstName("Jane");
+        users2.setId(123L);
+        users2.setLastName("Doe");
+        users2.setPassword("iloveyou");
+        users2.setPhoneNumber("4105551212");
+        users2.setPin("Pin");
+        users2.setRole("Role");
+        users2.setToken("ABC123");
+        users2.setUpdatedAt(LocalDateTime.of(1, 1, 1, 1, 1));
+        users2.setUsername("janedoe");
+        users2.setUsersStatus(UsersStatus.ACTIVE);
+        users2.setWallet(wallet1);
+        when(usersRepository.findUsersByEmail((String) any())).thenReturn(users2);
+        UsersResponse actualUser = usersServiceImpl.getUser();
+        assertEquals("BVN", actualUser.getBVN());
+        assertEquals("4105551212", actualUser.getPhoneNumber());
+        assertEquals("Doe", actualUser.getLastName());
+        assertEquals("Jane", actualUser.getFirstName());
+        assertEquals("jane.doe@example.org", actualUser.getEmail());
+        verify(jwtUtils).extractUsername((String) any());
+        verify(usersRepository).findUsersByEmail((String) any());
+    }
+
+
+    @Test
+    void testGetUser2() {
+        when(jwtUtils.extractUsername((String) any())).thenReturn("janedoe");
+        when(usersRepository.findUsersByEmail((String) any()))
+                .thenThrow(new PasswordNotMatchingException("An error occurred"));
+        assertThrows(PasswordNotMatchingException.class, () -> usersServiceImpl.getUser());
+        verify(jwtUtils).extractUsername((String) any());
+        verify(usersRepository).findUsersByEmail((String) any());
     }
 
 
