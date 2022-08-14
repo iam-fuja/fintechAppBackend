@@ -36,7 +36,7 @@ public class WalletServiceImpl implements WalletService {
     private final UsersRepository usersRepository;
 
    private final JwtUtils jwtUtils;
-    private  String userToken = "";
+    public static String userToken = "";
 
     @Override
     public Wallet createWallet(Users user) throws JSONException {

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping(path = "/api/")
+@RequestMapping()
 @Slf4j
 public class UsersController {
 
@@ -42,9 +42,9 @@ public class UsersController {
 
 
     @GetMapping("/viewUser")
-    public ResponseEntity<UsersResponse> getUser(){
-        UsersResponse usersResponse = usersService.getUser();
-        return new ResponseEntity<>(usersResponse, HttpStatus.OK);
+    public ResponseEntity<UsersResponse> getUsers(){
+//        UsersResponse usersResponse = ;
+        return new ResponseEntity<>(usersService.getUser(), HttpStatus.OK);
     }
 
 }

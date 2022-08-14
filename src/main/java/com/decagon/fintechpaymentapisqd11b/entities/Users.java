@@ -17,44 +17,44 @@ import javax.validation.constraints.*;
 @Entity
 public class Users extends BaseClass{
 
-    @NotNull
+//    @NotNull
     private String firstName;
 
-    @NotNull
+//    @NotNull
     private String lastName;
 
     @Column(unique = true, length = 11)
-    @NotNull
+//    @NotNull
     private String BVN;
 
     @Email
     @Column(unique = true)
-    @NotNull
+//    @NotNull
     private String email;
 
     @Column(length = 11)
-    @NotNull
+//    @NotNull
     private String phoneNumber;
 
     @Column(length = 64)
-    @NotNull
+//    @NotNull
     private String password;
 
     @Column(length = 4)
-    @NotNull
+//    @NotNull
     private String pin;
 
     @Enumerated(EnumType.STRING)
-    @NotNull
+//    @NotNull
     private UsersStatus usersStatus;
 
-    @NotNull
+//    @NotNull
     private String token;
 
     @OneToOne(mappedBy = "users")
     private Wallet wallet;
 
-    @NotNull
+//    @NotNull
     private String role;
 
     private String username;

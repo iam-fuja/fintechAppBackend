@@ -11,6 +11,7 @@ import com.decagon.fintechpaymentapisqd11b.entities.Wallet;
 import com.decagon.fintechpaymentapisqd11b.enums.UsersStatus;
 import com.decagon.fintechpaymentapisqd11b.repository.UsersRepository;
 import com.decagon.fintechpaymentapisqd11b.repository.WalletRepository;
+import com.decagon.fintechpaymentapisqd11b.security.filter.JwtUtils;
 import com.decagon.fintechpaymentapisqd11b.service.UsersService;
 import com.decagon.fintechpaymentapisqd11b.service.WalletService;
 import com.decagon.fintechpaymentapisqd11b.validations.token.ConfirmationToken;
@@ -45,6 +46,9 @@ public class UsersServiceImpl implements UsersService, UserDetailsService {
     private String USER_EMAIL_ALREADY_EXISTS_MSG = "Users with email %s already exists!";
     private final ConfirmationTokenServiceImpl confirmTokenService;
     private final WalletService walletService;
+
+    private final JwtUtils jwtUtils;
+    private final WalletServiceImpl walletServices;
     private final WalletRepository walletRepository;
     private final UsersRepository usersRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -106,9 +110,8 @@ public class UsersServiceImpl implements UsersService, UserDetailsService {
 
     @Override
     public UsersResponse getUser() {
-
-        User user1 = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Users users1 = usersRepository.findUsersByEmail(user1.getUsername());
+        String email = WalletServiceImpl.userToken;
+        Users users1 = usersRepository.findUsersByEmail(jwtUtils.extractUsername(email));
         UsersResponse usersResponse = UsersResponse.builder()
                 .firstName(users1.getFirstName())
                 .lastName(users1.getLastName())
@@ -119,6 +122,7 @@ public class UsersServiceImpl implements UsersService, UserDetailsService {
         return usersResponse;
 
     }
+
 
     @Override
     public void enableUser(String email) {
