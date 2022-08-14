@@ -110,7 +110,7 @@ public class UsersServiceImpl implements UsersService, UserDetailsService {
 
     @Override
     public UsersResponse getUser() {
-        String email = WalletServiceImpl.userToken;
+        String email = "";
         Users users1 = usersRepository.findUsersByEmail(jwtUtils.extractUsername(email));
         UsersResponse usersResponse = UsersResponse.builder()
                 .firstName(users1.getFirstName())
